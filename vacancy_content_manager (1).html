@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Контент-менеджер — Це Dia | Digital Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Geologica:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ee;
+    --accent: #e8ff47;
+    --gray: #1e1e1e;
+    --mid: #2e2e2e;
+    --text-muted: #888;
+    --red: #ff4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Geologica', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .noise {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  header {
+    padding: 60px 0 40px;
+    border-bottom: 1px solid #222;
+  }
+
+  .agency-tag {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .agency-tag span {
+    color: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+    display: block;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .badge {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 6px 14px;
+    border-radius: 2px;
+    background: var(--mid);
+    color: var(--white);
+  }
+
+  .badge.accent {
+    background: var(--accent);
+    color: var(--black);
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 48px 0;
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  p {
+    color: #bbb;
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+
+  p strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* LISTS */
+  .task-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .task-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 15px;
+    color: #ccc;
+    padding: 14px 18px;
+    background: var(--gray);
+    border-left: 3px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .task-list li:hover { border-left-color: var(--accent); }
+
+  .task-list li .icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* REQUIREMENTS GRID */
+  .req-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 560px) {
+    .req-grid { grid-template-columns: 1fr; }
+  }
+
+  .req-card {
+    background: var(--gray);
+    padding: 16px 18px;
+    border-top: 2px solid var(--mid);
+  }
+
+  .req-card.must {
+    border-top-color: var(--accent);
+  }
+
+  .req-card .req-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .req-card.must .req-label { color: var(--accent); }
+
+  .req-card p {
+    font-size: 14px;
+    color: #ccc;
+    margin: 0;
+  }
+
+  /* RED FLAGS */
+  .flag-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .flag-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    color: #bbb;
+    padding: 12px 16px;
+    background: rgba(255,68,68,0.05);
+    border-left: 3px solid var(--red);
+  }
+
+  .flag-list li::before {
+    content: "⛔";
+    flex-shrink: 0;
+  }
+
+  /* TEST TASK */
+  .test-block {
+    background: var(--gray);
+    padding: 28px;
+    border: 1px solid #2a2a2a;
+  }
+
+  .test-block h3 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--white);
+  }
+
+  .test-block ol {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .test-block ol li {
+    font-size: 14px;
+    color: #ccc;
+    padding-left: 6px;
+  }
+
+  .test-block ol li strong {
+    color: var(--white);
+    display: block;
+    margin-bottom: 2px;
+    font-weight: 500;
+  }
+
+  .test-note {
+    margin-top: 20px;
+    padding: 14px 16px;
+    background: rgba(232,255,71,0.06);
+    border-left: 3px solid var(--accent);
+    font-size: 13px;
+    color: #aaa;
+  }
+
+  /* KPI BLOCK */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 560px) {
+    .kpi-row { grid-template-columns: 1fr; }
+  }
+
+  .kpi-card {
+    background: var(--gray);
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .kpi-card .kpi-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .kpi-card .kpi-desc {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.4;
+  }
+
+  /* FOOTER CTA */
+  .cta-block {
+    padding: 48px 0 64px;
+  }
+
+  .cta-block h2 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .cta-block p {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 0;
+  }
+
+  .cta-block p strong {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    margin: 8px 0 32px;
+    width: 60px;
+  }
+</style>
+</head>
+<body>
+<div class="noise"></div>
+
+<div class="container">
+
+  <header>
+    <div class="agency-tag">Це Dia | Digital Marketing — <span>Відкрита вакансія</span></div>
+    <h1>Контент-менеджер<em>Middle</em></h1>
+    <div class="meta-row">
+      <span class="badge accent">Дистанційно</span>
+      <span class="badge">Повна зайнятість</span>
+      <span class="badge">Кілька клієнтів</span>
+      <span class="badge">Ставка обговорюється</span>
+    </div>
+  </header>
+
+  <!-- ХТО МИ -->
+  <section>
+    <div class="section-label">Про агенцію</div>
+    <p>Це Dia — маркетингова агенція, яка працює з реальним бізнесом і дає вимірюваний результат. Ми не робимо "просто пости" — ми будуємо контент-системи, які працюють на продажі.</p>
+    <p>Зараз у нас є кілька активних клієнтів, чіткі процеси і команда, яка думає через цифри. <strong>Нам потрібна людина, яка закриє контент-напрямок без мікроменеджменту.</strong></p>
+  </section>
+
+  <!-- ЗАДАЧІ -->
+  <section>
+    <div class="section-label">Що ти будеш робити</div>
+    <h2>Твої реальні задачі — без прикрас</h2>
+    <ul class="task-list">
+      <li>
+        <span class="icon">🎬</span>
+        <div><strong style="color:#fff;font-weight:500;">Сценарії для відео</strong><br>TikTok, YouTube Shorts, Reels — пишеш хуки, структуру, CTA. Розумієш різницю між вірусним і корисним.</div>
+      </li>
+      <li>
+        <span class="icon">📅</span>
+        <div><strong style="color:#fff;font-weight:500;">Публікація і постинг</strong><br>Виставляєш контент за планом, контролюєш дедлайни. Не запитуєш щоразу "а коли публікувати?".</div>
+      </li>
+      <li>
+        <span class="icon">🎨</span>
+        <div><strong style="color:#fff;font-weight:500;">Комунікація з дизайнером</strong><br>Сам(а) ставиш ТЗ, контролюєш результат, приймаєш або повертаєш на правки. Без залучення керівника.</div>
+      </li>
+      <li>
+        <span class="icon">📊</span>
+        <div><strong style="color:#fff;font-weight:500;">Контент-план на місяць</strong><br>Знаєш для чого кожна рубрика. Вмієш пояснити логіку клієнту або команді.</div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- KPI -->
+  <section>
+    <div class="section-label">Результат на 30-й день</div>
+    <h2>Ми очікуємо, що ти вже робиш це самостійно</h2>
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <span class="kpi-num">3+</span>
+        <span class="kpi-desc">клієнти в роботі без ескалацій до керівника</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-num">100%</span>
+        <span class="kpi-desc">дедлайни закриті в строк за перший місяць</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-num">0</span>
+        <span class="kpi-desc">разів запитав(ла) "що публікувати" без ініціативи</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВИМОГИ -->
+  <section>
+    <div class="section-label">Вимоги</div>
+    <h2>Що обов'язково, що буде плюсом</h2>
+    <div class="req-grid">
+      <div class="req-card must">
+        <div class="req-label">Must have</div>
+        <p>Досвід написання сценаріїв для TikTok / Reels — є портфоліо</p>
+      </div>
+      <div class="req-card must">
+        <div class="req-label">Must have</div>
+        <p>Вів(ла) кілька клієнтів паралельно — не один проєкт</p>
+      </div>
+      <div class="req-card must">
+        <div class="req-label">Must have</div>
+        <p>Самостійно ставив(ла) ТЗ дизайнеру — вміє описати ідею без "намалюй щось гарне"</p>
+      </div>
+      <div class="req-card must">
+        <div class="req-label">Must have</div>
+        <p>Закривав(ла) дедлайни без нагадувань і апдейтував(ла) статуси сам(а)</p>
+      </div>
+      <div class="req-card">
+        <div class="req-label">Nice to have</div>
+        <p>Досвід роботи в агенції або на кількох проєктах одночасно</p>
+      </div>
+      <div class="req-card">
+        <div class="req-label">Nice to have</div>
+        <p>Розуміє базову аналітику: охоплення, ER, перегляди — і вміє зробити висновок</p>
+      </div>
+      <div class="req-card">
+        <div class="req-label">Nice to have</div>
+        <p>Знає як адаптувати тренди під бренд, а не просто копіює чужі ідеї</p>
+      </div>
+      <div class="req-card">
+        <div class="req-label">Nice to have</div>
+        <p>Вміє базово в Canva або Figma — щоб поставити ТЗ предметно</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ТЕСТОВЕ -->
+  <section>
+    <div class="section-label">Тестове завдання</div>
+    <div class="test-block">
+      <h3>Виконується до фінального інтерв'ю — займає ~2 години</h3>
+      <ol>
+        <li>
+          <strong>Сценарій для TikTok / Reels</strong>
+          Напиши сценарій на 30–60 секунд для B2B SaaS-продукту (CRM-система). Аудиторія: власники малого бізнесу. Мета: підписка на пробний період. Обов'язково: чіткий хук у перші 3 секунди, структура, CTA.
+        </li>
+        <li>
+          <strong>ТЗ для дизайнера</strong>
+          Склади ТЗ на пост для Instagram (статичний банер). Тема: анонс нової функції в CRM. Без "зроби красиво" — конкретні розміри, кольори, текстовий блок, ієрархія.
+        </li>
+        <li>
+          <strong>Контент-план на тиждень</strong>
+          7 постів для Instagram / TikTok B2B-клієнта. Для кожного: рубрика, формат, тема, тип контенту (відео / карусель / статика). Коментар: чому саме цей мікс?
+        </li>
+      </ol>
+      <div class="test-note">
+        💡 Ми оцінюємо не ідеальність — а логіку мислення. Якщо є питання по клієнту або продукту — постав їх письмово разом із відповіддю. Це теж частина оцінки.
+      </div>
+    </div>
+  </section>
+
+  <!-- ЧЕРВОНІ ПРАПОРИ -->
+  <section>
+    <div class="section-label">Ми не підходимо одне одному, якщо</div>
+    <ul class="flag-list">
+      <li>Ти чекаєш детального ТЗ на кожну задачу — у нас є напрямок і ціль, решту треба добудувати самому</li>
+      <li>Твоє портфоліо — один довгостроковий клієнт без різноманіття ніш і форматів</li>
+      <li>Ти пишеш сценарії "щоб було" — без розуміння хука, структури і цілі відео</li>
+      <li>Дедлайн для тебе — орієнтир, а не зобов'язання</li>
+      <li>Ти не вмієш давати фідбек дизайнеру конкретно — тільки "мені не подобається"</li>
+      <li>Шукаєш стабільне місце "без стресу" — у нас динамічно і це норма</li>
+    </ul>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="section-label">Як відгукнутись</div>
+    <h2>Готовий(а)? Пиши.</h2>
+    <div class="divider"></div>
+    <p>Надсилай: <strong>портфоліо або 2–3 приклади своїх сценаріїв/контент-планів</strong> + коротко про себе (без резюме на 3 сторінки).</p>
+    <p style="margin-top:8px;">Тестове завдання надішлемо після першого знайомства.</p>
+    <p style="margin-top:20px;">
+      <a href="https://t.me/alordean" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:var(--black);font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;padding:14px 24px;text-decoration:none;letter-spacing:0.05em;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        Написати @alordean
+      </a>
+    </p>
+  </div>
+
+</div>
+</body>
+</html>
